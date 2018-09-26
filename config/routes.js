@@ -24,8 +24,8 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': {
-    view: 'pages/homepage'
+  '/': function(req,res){
+    return res.send("you can add block by send a json string or get block by a number; ");
   },
   //get block by height
   'get /block/:height':{

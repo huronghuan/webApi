@@ -6,13 +6,16 @@
  */
 
 
-var {Block,BlockChain} = require("/blockchain/simpleChain");
+var {Block,BlockChain} = require("../../blockchain/simpleChain");
 
 let myBlockChain = new BlockChain();
 
 module.exports = {
   	getBlock:function(req,res){
-  		var height = Number(req.param('height'))
+  		var height = Number(req.param('height'));
+  		
+  		sails.log("requst param block height is:",height);
+
   		if (height == 0) {
   			return res.badRequest(new Error('chain height must greater than 0'))
   		}
@@ -20,23 +23,30 @@ module.exports = {
   		blockPromise.then(function(data){
   			res.send(data);
   		}, function(err){
-  			res.send('internal error');
+  			sails.log("get block error:",err);
+  			res.send(new Error('internal error'));
   		});
   	},
   	addBlock:function(req,res){
-  		if (req.body == '') {
+  		sails.log("requst body:",req.body);
+  		sails.log("type of the body",typeof req.body);
+  		if (typeof req.body != "object") {
+  			return res.badRequest(new Error('content error，content must be json format'));
+  		}
+  		if (req.body == {}) {
   			return res.badRequest(new Error('body can not empty'));
   		}
-  		let body = JSON.parse(req.body);
 
-  		if (body == false || body.body == null) {
+  		if (req.body.body == null) {
   			return res.badRequest(new Error('bad json request'));
   		}
-  		let newBlock = new Block(body.body);
+  		let newBlock = new Block(req.body.body);
 
   		myBlockChain.addBlock(newBlock,function(data){
   			//data is new block
 	  		res.json(data);
+  		},function(err){
+  			res.serverError(err);
   		});
 
 

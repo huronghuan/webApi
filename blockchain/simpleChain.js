@@ -42,7 +42,7 @@ class BlockChain{
       });
     }
     //add block  
-  	addBlock(newBlock,callback){
+  	addBlock(newBlock,success,failed){
       let o = this;
       let heightPromise =this.getBlockHeight();
       
@@ -56,8 +56,8 @@ class BlockChain{
             newBlock.hash=SHA256(JSON.stringify(newBlock)).toString();
             //add new block
             level_db.addDataToLevelDB(JSON.stringify(newBlock).toString());
-            if (callback) {
-              callback(newBlock);
+            if (success) {
+              success(newBlock);
             }
         }else{
           let blockPromise = o.getBlock(chainHeight);
@@ -70,16 +70,22 @@ class BlockChain{
             newBlock.hash=SHA256(JSON.stringify(newBlock)).toString();
             //add new block
             level_db.addDataToLevelDB(JSON.stringify(newBlock).toString());
-            if (callback) {
-              callback(newBlock);
+            if (success) {
+              success(newBlock);
             }
           }, function(err){
              console.log("get block error:",err); 
+             if(failed){
+              failed(err);
+             }
           });
         }
 
       }, function(err){
         console.log(err);
+        if(failed){
+          failed(err);
+        }
       });
     }
     //get chain
