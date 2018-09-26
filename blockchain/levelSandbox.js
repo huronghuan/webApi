@@ -36,7 +36,7 @@ function getLevelDBData(key){
 
 // Add data to levelDB with value
 function addDataToLevelDB(value) {
-    let i = 1;
+    let i = 0;
     let  $this = this;
     db.createReadStream().on('data', function(data) {
       i++;
@@ -56,7 +56,7 @@ function addDataToLevelDB(value) {
 
 function getLastKey(){
   return new Promise(function(resolve,reject){
-    let i = 0;
+    let i = -1;
     db.createKeyStream().on('data', function(data) {
       i = data;
     }).on('error', function(err) {

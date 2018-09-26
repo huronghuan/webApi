@@ -16,9 +16,10 @@ module.exports = {
   		
   		sails.log("requst param block height is:",height);
 
-  		if (height == 0) {
-  			return res.badRequest(new Error('chain height must greater than 0'))
+  		if (height < 0) {
+  			return res.badRequest(new Error('chain height cant smaller than 0'))
   		}
+  		
   		let blockPromise = myBlockChain.getBlock(height);
   		blockPromise.then(function(data){
   			res.send(data);
@@ -36,9 +37,14 @@ module.exports = {
   		if (req.body == {}) {
   			return res.badRequest(new Error('body can not empty'));
   		}
-
   		if (req.body.body == null) {
   			return res.badRequest(new Error('bad json request'));
+  		}
+  		if (typeof req.body.body =="string") {
+			req.body.body = req.body.body.trim();
+  		}
+  		if(req.body.body == "") {
+  			return res.badRequest(new Error('payload must not empty'));
   		}
   		let newBlock = new Block(req.body.body);
 

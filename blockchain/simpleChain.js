@@ -34,7 +34,7 @@ class BlockChain{
       let o = this;
       this.getBlockHeight().then(function(height){
         height = Number(height);
-        if (height==0) {
+        if (height== -1) {
           o.addBlock(new Block("First block in the chain --Genesis Block"));
         }
       }, function(err){
@@ -49,7 +49,7 @@ class BlockChain{
       heightPromise.then(function(height){
         let chainHeight = Number(height);
         console.log('chainHeight:',chainHeight);
-        if (chainHeight == 0) {
+        if (chainHeight == -1) {
             newBlock.height= chainHeight+1; 
             newBlock.time = new Date().getTime().toString().slice(0,-3);
             //get new block hash
@@ -63,7 +63,7 @@ class BlockChain{
           let blockPromise = o.getBlock(chainHeight);
           blockPromise.then(function(data){
             let value_d = JSON.parse(data);
-            newBlock.height= chainHeight+1; 
+            newBlock.height= value_d.height+1; 
             newBlock.previousBlockHash = value_d.hash;
             newBlock.time = new Date().getTime().toString().slice(0,-3);
             //get new block hash
@@ -104,9 +104,9 @@ class BlockChain{
 
     // get block promise
     getBlock(blockHeight){
-      if (blockHeight == 0) {
-        console.log('the 0th block not exists');
-        return new Promise();
+      if (blockHeight < 0) {
+        console.log('out of range');
+        return Promise.reject("out of range");
       }else{
         return level_db.getLevelDBData(blockHeight);
       }
@@ -145,7 +145,7 @@ class BlockChain{
       heightPromise.then(function(chainHeight){
         console.log('validate:',chainHeight);
         chainHeight = Number(chainHeight);
-        for (var i = 1; i <= chainHeight; i++) {
+        for (var i = 0; i < chainHeight+1; i++) {
           // validate block
           console.log('for validate:',i);
           o.validateBlock(i,function(bool){
