@@ -10,6 +10,7 @@ a [Sails v1](https://sailsjs.com) application
 **require node >9.3.0**
 
 The application runs on node enviroment,if you didn't have installed `node`,then you can install `node` first from the web site [node](https://nodejs.org).
+
 **MacOS**
     
     ```
