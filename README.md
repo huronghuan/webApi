@@ -5,7 +5,9 @@ a [Sails v1](https://sailsjs.com) application
 
 ## Build and run
 
-## node
+##node
+
+**require node >9.3.0**
 
 The application runs on node enviroment,if you didn't have installed `node`,then you can install `node` first from the web site [node](https://nodejs.org).
 
@@ -17,10 +19,10 @@ The application runs on node enviroment,if you didn't have installed `node`,then
 ```
 
 ### Deploy the webapp on test enviroment
+
 ```
-    cd webApi 
-    rm -rf chaindata
-    sails lift --port 8000
+   rm -rf chaindata
+   sails lift --port 8000
 ```
 
 ### Visit the webapp
