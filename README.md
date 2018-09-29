@@ -44,9 +44,14 @@ The application runs on node enviroment,if you didn't have installed `node`,then
 ### Deploy the webapp on test enviroment
 
 ```
-   rm -rf chaindata
-   sails lift
+    rm -rf chaindata
+    sails lift --port 8000
 ```
+
+    >You can execute `cp config/local.template.js config/local.js` and set the port you like ,so you can start the app with `sails lift` only.
+
+
+
 
 ### Visit the webapp
 1. get a block by blockHeight
