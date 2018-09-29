@@ -26,10 +26,11 @@ function getLevelDBData(key){
   return new Promise(function(resolve,reject){
     db.get(key, function(err, value) {
       if (err) {
-         console.log('Not found!', err);
-         reject(err);
+        console.log(err);
+        reject(err);
+      }else{
+        resolve(value);
       }
-      resolve(value);
     });
   });
 }

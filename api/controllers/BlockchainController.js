@@ -25,7 +25,9 @@ module.exports = {
   			res.send(data);
   		}, function(err){
   			sails.log("get block error:",err);
-  			res.send(new Error('internal error'));
+  			res.json({
+  				"error":"Not Found"
+  			});
   		});
   	},
   	addBlock:function(req,res){
