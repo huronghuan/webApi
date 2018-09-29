@@ -22,7 +22,7 @@ module.exports = {
   		
   		let blockPromise = myBlockChain.getBlock(height);
   		blockPromise.then(function(data){
-  			res.send(data);
+  			res.type("json").send(data);
   		}, function(err){
   			sails.log("get block error:",err);
   			res.json({
