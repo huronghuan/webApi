@@ -45,7 +45,7 @@ The application runs on node enviroment,if you didn't have installed `node`,then
 
 ```
    rm -rf chaindata
-   sails lift --port 8000
+   sails lift
 ```
 
 ### Visit the webapp
