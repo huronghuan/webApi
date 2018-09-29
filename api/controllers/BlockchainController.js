@@ -46,13 +46,22 @@ module.exports = {
   		if(req.body.body == "") {
   			return res.badRequest(new Error('payload must not empty'));
   		}
-  		let newBlock = new Block(req.body.body);
-
-  		myBlockChain.addBlock(newBlock,function(data){
-  			//data is new block
-	  		res.json(data);
-  		},function(err){
-  			res.serverError(err);
+  		myBlockChain.duplicateValidate(req.body.body).then(function(){
+	  		let newBlock = new Block(req.body.body);
+	  		myBlockChain.addBlock(newBlock,function(data){
+	  			//data is new block
+		  		res.json(data);
+	  		},function(err){
+	  			res.serverError(err);
+	  		});
+  		}, function(err){
+  			if (typeof err == 'number') {
+  				res.json({
+  					error:"the body content duplicate from the block which height is "+err
+  				});
+  			}else{
+	  			res.serverError(err);
+  			}
   		});
 
 

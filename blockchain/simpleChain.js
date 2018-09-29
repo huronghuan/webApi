@@ -96,7 +96,21 @@ class BlockChain{
           console.log(err);
       });
     }
-
+    //check if body content duplicate
+    duplicateValidate(s){
+      return new Promise(function(resolve,reject){
+        level_db.getAllData().then((dataArray) => {
+          for (var i = dataArray.length - 1; i >= 0; i--) {
+            if(dataArray[i].body == s){
+                reject(dataArray[i].height);
+            }
+          }
+          resolve(true);
+        },(err)=>{
+          reject(err);
+        });
+      });
+    }
     //Get block height promise
     getBlockHeight(){
         return level_db.getLastKey();
