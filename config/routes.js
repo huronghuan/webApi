@@ -37,6 +37,15 @@ module.exports.routes = {
     controller:'blockchain',
     action:'addBlock',
   },
+  //validate request
+  'post /requestValidation':{
+    controller:'validation',
+    action:'request',
+  },
+  'post /message-signature/validate':{
+    controller:'validation',
+    action:'signature',
+  },
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
