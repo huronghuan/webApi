@@ -28,13 +28,24 @@ module.exports.routes = {
     return res.send("you can add block by send a json string or get block by a number; ");
   },
   //get block by height
+  'get r|^/stars/hash:(\\w+)$|hash':{
+    controller:'star',
+    action:'getByHash',
+  },
+    //get block by hash
+  'get r|^/stars/address:(\\w+)$|address':{
+    controller:'star',
+    action:'getByAddress',
+  },
+    //get block by address
   'get /block/:height':{
-    controller:'blockchain',
+    controller:'star',
     action:'getBlock',
   },
+
   // add a block
   'post /block':{
-    controller:'blockchain',
+    controller:'star',
     action:'addBlock',
   },
   //validate request
@@ -46,6 +57,7 @@ module.exports.routes = {
     controller:'validation',
     action:'signature',
   },
+
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

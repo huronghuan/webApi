@@ -126,6 +126,39 @@ class BlockChain{
       }
     }
 
+    getBlockByHash(hash){
+      let db = level_db.getDb();
+      return new Promise(function(resolve,reject){
+        db.createReadStream().on('data', function(data) {
+          let block = JSON.parse(data.value);
+          if (block.hash == hash) {
+            resolve(block);
+          }
+        }).on('error', function(err) {
+            console.log('Unable to read data stream!', err);
+            reject(err);
+        }).on('close', function() {
+            reject(new Error("Unable get block by hash "));
+        });
+      });
+    }
+    getBlockByAddress(address){
+      let db = level_db.getDb();
+      return new Promise(function(resolve,reject){
+        let arr = [];
+        db.createReadStream().on('data', function(data) {
+          let block = JSON.parse(data.value);
+          if (block.body.address == address) {
+            arr.push(block);
+          }
+        }).on('error', function(err) {
+            console.log('Unable to read data stream!', err);
+            reject(err);
+        }).on('close', function() {
+            resolve(arr);
+        });
+      });
+    }
     // validate block
     validateBlock(blockHeight,callback){
       // get block promise

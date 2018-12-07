@@ -83,9 +83,13 @@ function getAllData(){
       });
   });
 }
+function getDb(){
+  return db;
+}
 //exports all functions
 module.exports.addLevelDBData = addLevelDBData;
 module.exports.getLevelDBData = getLevelDBData;
 module.exports.addDataToLevelDB = addDataToLevelDB;
 module.exports.getLastKey = getLastKey;
 module.exports.getAllData = getAllData;
+module.exports.getDb = getDb;
