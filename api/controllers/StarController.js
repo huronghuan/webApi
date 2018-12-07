@@ -31,7 +31,9 @@ module.exports = {
   		
   		let blockPromise = myBlockChain.getBlock(height);
   		blockPromise.then(function(data){
-  			res.type("json").send(data);
+  			data = JSON.parse(data);
+  			data.body.star.storyDecoded = HexToString(data.body.star.story);
+  			res.json(data);
   		}, function(err){
   			sails.log("get block error:",err);
   			res.json({
@@ -116,11 +118,10 @@ module.exports = {
   			let newBlock = new Block(body);
   			myBlockChain.addBlock(newBlock,function(data){
 	  			//data is new block
-	  			// mempool.deleteValidAddress(address);
+	  			mempool.removeValidationRequest(address);
 	  			//add original story
 	  			data.body.star.storyDecoded = star.story;
 	  			//释放锁
-  				mempool.freeLock(address);
 		  		res.json(data);
 	  		},function(err){
 	  			//释放锁

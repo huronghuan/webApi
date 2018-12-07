@@ -39,9 +39,6 @@ module.exports= {
 	verifyAddressRequest:function(walletAddress){
 		return valid[walletAddress];
 	},
-	deleteValidAddress:function(walletAddress){
-		delete valid[walletAddress];
-	},
 	//为了防止重复提交加锁
 	getLock:function(address){
 		valid[address] = 'active';

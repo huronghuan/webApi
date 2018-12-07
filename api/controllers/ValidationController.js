@@ -23,6 +23,7 @@ module.exports ={
 		}else{
 			let response = null;
 			if (response =  mempool.getRequestByAddress(address)) {
+				response.validationWindow = Number(response.requestTimeStamp)+(TimeoutRequestsWindowTime/1000) - Number(currentStamp);
 				return res.json(response);
 			}else{
 				req.response = {
@@ -34,8 +35,8 @@ module.exports ={
 				response = req.response;
 				//cache data 缓存数据
 				mempool.addRequestToMempool(req,validationWindow);
+				return res.json(response);
 			}
-			return res.json(response);
 		}
 
 	},
@@ -57,6 +58,7 @@ module.exports ={
 		}
 		let isValid = mempool.validateRequestByWallet(response.message,address,signature);
 		if (isValid) {
+			response.validationWindow = Number(response.requestTimeStamp)+(TimeoutRequestsWindowTime/1000) - Number(currentStamp);
 			response.messageSignature = 'valid';
 			return res.json({
 				"registerStar": true,
