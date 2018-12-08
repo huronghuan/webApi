@@ -85,11 +85,36 @@ module.exports = {
   		
   		let address = req.body.address;
   		let star = req.body.star;
+  		if (!star) {
+  			return res.badRequest(new Error("star required"));
+  		}
+  		if (!star.story) {
+  			return res.badRequest(new Error("story required"));
+   		}
+   		if (typeof star.story != 'string') {
+   			return res.badRequest(new Error("story must be string!"));
+   		}
+   		for(var k = 0, k < 300; k++){
+   			if(k>250){
+   				return res.badRequest(new Error("story limit 250 words!"));
+   			}
+   			if(star.story.charCodeAt(k)>127){
+   				return res.badRequest(new Error("Stroy must be ascii text!"));
+   			}
+   		}
+
   		let RA = star.ra;
         let DEC = star.dec;
         let MAG = star.mag;
         let CEN = star.cen;
         let story = Buffer(star.story).toString('hex');
+  		
+  		if (!RA) {
+  			return res.badRequest(new Error("ra required"));
+  		}
+        if (!DEC) {
+        	return res.badRequest(new Error("dec required"));
+        }
 
 		let body = {
 		        address: address,
