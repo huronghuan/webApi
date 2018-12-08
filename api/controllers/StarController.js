@@ -94,7 +94,7 @@ module.exports = {
    		if (typeof star.story != 'string') {
    			return res.badRequest(new Error("story must be string!"));
    		}
-   		for(var k = 0, k < 300; k++){
+   		for(var k = 0; k < star.story.length; k++){
    			if(k>250){
    				return res.badRequest(new Error("story limit 250 words!"));
    			}
